@@ -2,6 +2,7 @@
  * Phonegap VolumeControl Plugin for Android
  * Cordova 2.2.0
  * Author: Manuel Simpson
+ * Email: manusimpson[at]gmail[dot]com
  * Date: 12/28/2012
  */
  
