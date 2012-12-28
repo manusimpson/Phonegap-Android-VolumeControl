@@ -9,7 +9,7 @@ Installation:
     `<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />`  
        
 2. Config.xml:  
-    `<plugin name="VolumeControl" value="com.phonegap.plugins.volumeControl.VolumeControl"/>`
+    `<plugin name="VolumeControl" value="com.develcode.plugins.volumeControl.VolumeControl"/>`
 
 3. Create folders and put the .java file:  
     `src/com/develcode/plugin/volumeControl/VolumeControl.java`
