@@ -21,6 +21,8 @@ public class VolumeControl extends CordovaPlugin {
 
 	public static final String SET = "setVolume";
 	public static final String GET = "getVolume";
+	private static final String TAG = "VolumeControl";
+
 	private Context context;
 	private AudioManager manager;
 
@@ -30,31 +32,38 @@ public class VolumeControl extends CordovaPlugin {
 		context = cordova.getActivity().getApplicationContext();
 		manager = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
 		if (SET.equals(action)) {
-
 			try {
-
 				//Get the volume value to set
 				int volume = getVolumeToSet(args.getInt(0));
+				boolean play_sound;
+
+				if(args.length() > 1 && !args.isNull(1)) {
+					LOG.d(TAG, String.valueOf(args.length()));
+					play_sound = args.getBoolean(1);
+				} else {
+					play_sound = true;
+				}
+
 				//Set the volume
-				manager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_PLAY_SOUND);
+				manager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, (play_sound ? AudioManager.FLAG_PLAY_SOUND : 0));
 				callbackContext.success();
 			} catch (Exception e) {
-				LOG.d("VolumeControl", "Error setting volume " + e);
+				LOG.d(TAG, "Error setting volume " + e);
 				actionState = false;
 			}
-		}else if(GET.equals("getVolume")){
+		} else if(GET.equals(action)) {
 				//Get current system volume
 				int currVol = getCurrentVolume();
 				String strVol= String.valueOf(currVol);
 				callbackContext.success(strVol);
-				LOG.d("VolumeControl", "Current Volume is " + currVol);
-		}else{
+				LOG.d(TAG, "Current Volume is " + currVol);
+		} else {
 			actionState = false;
 		}
 		return actionState;
 	}
 
-	private int getVolumeToSet(int percent){
+	private int getVolumeToSet(int percent) {
 		int volLevel;
 		int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 		volLevel = Math.round((percent * maxVolume) / 100);
@@ -62,16 +71,16 @@ public class VolumeControl extends CordovaPlugin {
 		return volLevel;
 	}
 
-	private int getCurrentVolume(){
-		try{
+	private int getCurrentVolume() {
+		try {
 			int volLevel;
 			int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 			int currSystemVol = manager.getStreamVolume(AudioManager.STREAM_MUSIC);
 			volLevel = Math.round((currSystemVol * 100) / maxVolume);
 
 			return volLevel;
-		}catch (Exception e) {
-			LOG.d("VolumeControl", "getVolume error: " + e);
+		} catch (Exception e) {
+			LOG.d(TAG, "getVolume error: " + e);
 			return 1;
 		}
 	}

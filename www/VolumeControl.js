@@ -9,13 +9,13 @@
 var exec = require('cordova/exec');
 
 var VolumeControl = {
-  setVolume: function(vol, successCallback, failureCallback){
+  setVolume: function(vol, successCallback, failureCallback, playSound){
 		return exec(
 			successCallback,
 			failureCallback,
 			'VolumeControl',
 			'setVolume',
-			[vol]
+			[vol, playSound]
 		);
 	},
 	getVolume: function(successCallback,failureCallback){
