@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.develcode.plugins.volumeControl"
-        version="0.2">
+        version="1.0">
 
    <name>Android Volume Control Plugin</name>
 
@@ -23,6 +23,9 @@
          </feature>
       </config-file>
 
+      <config-file target="AndroidManifest.xml" parent="/manifest">
+         <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+      </config-file>
 
       <js-module src="www/VolumeControl.js" name="VolumeControl">
          <clobbers target="cordova.plugins.VolumeControl" />
