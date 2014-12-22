@@ -38,7 +38,6 @@ public class VolumeControl extends CordovaPlugin {
 				boolean play_sound;
 
 				if(args.length() > 1 && !args.isNull(1)) {
-					LOG.d(TAG, String.valueOf(args.length()));
 					play_sound = args.getBoolean(1);
 				} else {
 					play_sound = true;
