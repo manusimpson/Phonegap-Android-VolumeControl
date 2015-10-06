@@ -6,7 +6,7 @@ Manage the music volume to your app.  Create a slider bar or control buttons.  C
 Installation:
 -------------
 1. Install using Cordova CLI:
-    `cordova plugin add git+https://github.com/manusimpson/Phonegap-Android-VolumeControl.git`
+    `cordova plugin add https://github.com/manusimpson/Phonegap-Android-VolumeControl.git`
 
 __Example of usage (Don't forget include the rest of necessary .js libs such as cordova,jquery and css, etc):__
 
