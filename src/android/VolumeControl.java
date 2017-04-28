@@ -1,9 +1,11 @@
 /*
- * Phonegap VolumeControl Plugin for Android
- * Cordova 2.2.0
+ * Cordova/Phonegap VolumeControl Plugin for Android
+ * Cordova >= 3.0.0
  * Author: Manuel Simpson
  * Email: manusimpson[at]gmail[dot]com
  * Date: 12/28/2012
+ * 
+ * At 04/28/2017 working in app compiled with Cordova 6.5.0  
  */
 
 package com.develcode.plugins.volumeControl;
@@ -21,6 +23,7 @@ public class VolumeControl extends CordovaPlugin {
 
 	public static final String SET = "setVolume";
 	public static final String GET = "getVolume";
+	public static final String MUT = "toggleMuteVolume";
 	private static final String TAG = "VolumeControl";
 
 	private Context context;
@@ -51,11 +54,33 @@ public class VolumeControl extends CordovaPlugin {
 				actionState = false;
 			}
 		} else if(GET.equals(action)) {
+			try {
 				//Get current system volume
 				int currVol = getCurrentVolume();
 				String strVol= String.valueOf(currVol);
 				callbackContext.success(strVol);
-				LOG.d(TAG, "Current Volume is " + currVol);
+			} catch (Exception e) {
+				LOG.d(TAG, "Error setting volume " + e);
+				actionState = false;
+			}
+		} else if(MUT.equals(action)){
+			try{
+				//Mute or Unmute volume
+				int volume = getCurrentVolume();
+				if(volume > 1){
+					// Mute: Set volume to 0
+					volume = 0;
+				} else {
+					// Unmute: Set volume to previous value
+					volume = getVolumeToSet(args.getInt(0));
+				}
+				manager.setStreamVolume(AudioManager.STREAM_MUSIC, volume, AudioManager.FLAG_PLAY_SOUND);
+				callbackContext.success(volume);
+
+			} catch (Exception e) {
+				LOG.d(TAG, "Error setting mute/unmute " + e);
+				actionState = false;
+			}
 		} else {
 			actionState = false;
 		}
@@ -63,11 +88,16 @@ public class VolumeControl extends CordovaPlugin {
 	}
 
 	private int getVolumeToSet(int percent) {
-		int volLevel;
-		int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-		volLevel = Math.round((percent * maxVolume) / 100);
+		try {
+			int volLevel;
+			int maxVolume = manager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+			volLevel = Math.round((percent * maxVolume) / 100);
 
-		return volLevel;
+			return volLevel;
+		} catch (Exception e){
+			LOG.d(TAG, "Error getting VolumeToSet: " + e);
+			return 1;
+		}
 	}
 
 	private int getCurrentVolume() {
@@ -79,7 +109,7 @@ public class VolumeControl extends CordovaPlugin {
 
 			return volLevel;
 		} catch (Exception e) {
-			LOG.d(TAG, "getVolume error: " + e);
+			LOG.d(TAG, "Error getting CurrentVolume: " + e);
 			return 1;
 		}
 	}
