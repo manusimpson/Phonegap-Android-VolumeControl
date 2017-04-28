@@ -16,6 +16,7 @@ __Example of usage (Don't forget include the rest of necessary .js libs such as 
         <script type="text/javascript" charset="utf-8" src="cordova-X.X.X.js"></script>
         <script type="text/javascript" charset="utf-8" src="jquery.js"></script>
         <script type="text/javascript" charset="utf-8">
+          var vol; // Here store current volume to unmute later.
           //Set volume to 95 when click button
           $('#volUp').bind('click',function(){
              cordova.plugins.VolumeControl.setVolume(95, onVolSuccess, onVolError);
@@ -23,6 +24,13 @@ __Example of usage (Don't forget include the rest of necessary .js libs such as 
           //Set volume to 25 when click button
           $('#volDown').bind('click',function(){
               cordova.plugins.VolumeControl.setVolume(25, onVolSuccess, onVolError);
+          });
+          //Mute/Unmute volume when click button (actually set volume to 0)
+          $('#volMute').bind('click',function(){
+              // Get the volume to store for unmute later
+              cordova.plugins.VolumeControl.getVolume(getVolSuccess, getVolError);
+
+              cordova.plugins.VolumeControl.toggleMuteVolume(vol, onVolSuccess, onVolError);
           });
           //Get current volume
           $('#currVol').bind('click',function(){
@@ -36,7 +44,8 @@ __Example of usage (Don't forget include the rest of necessary .js libs such as 
               //Manage Error
           }
           function getVolSuccess(r){
-              alert(r);
+              vol = r;
+              console.log(r);
           }
           function getVolError(){
               //Manage Error
@@ -46,10 +55,11 @@ __Example of usage (Don't forget include the rest of necessary .js libs such as 
       <body>
         <input type="button" id="volUp" value="Volume up"/>
         <input type="button" id="volDown" value="Volume down"/>
-
+        <input type="button" id="volMute" value="Mute/Unmute Volume"/>
         <input type="button" id="currVol" value="Get current Volume"/>
       </body>
     </html>
+
 LICENSE
 -------
 Copyright (c) 2012 AVANTIC ESTUDIO DE INGENIEROS
