@@ -1,0 +1,33 @@
+{
+  "name": "Phonegap-Android-VolumeControl",
+  "version": "1.0.0",
+  "description": "Manage the music volume to your app. Create a slider bar or control buttons.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manusimpson/Phonegap-Android-VolumeControl"
+  },
+  "bugs": {
+    "url": "https://github.com/manusimpson/Phonegap-Android-VolumeControl/issues"
+  },
+  "scripts": {
+  },
+  "cordova": {
+    "id": "Phonegap-Android-VolumeControl",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+  ],
+  "author": "manusimpson",
+  "license": "MIT",
+  "devDependencies": {
+  },
+  "engines": {
+    "cordovaDependencies": {
+      "3.0.0": {
+        "cordova": ">100"
+      }
+    }
+  }
+}
